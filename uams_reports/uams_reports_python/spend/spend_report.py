@@ -40,21 +40,7 @@ df_last = df_last.sort_values(['Date PO Created', 'MPN-UOM'],ascending = [0,1])
 df_last.drop_duplicates(subset = ['MPN-UOM'], keep = 'first')
 pd.merge(df_SAP, df_last, left_on = 'MPN-UOM', right_on = 'MPN-UOM', how='left')
 
-
-"""
-f_in = open(in_file, "r")
-f_out = open(out_file, "w", newline = '')
-# https://stackoverflow.com/questions/3348460/csv-file-written-with-python-has-blank-lines-between-each-row
-row_reader = csv.reader(f_in)
-row_writer = csv.writer(f_out)
-for row in row_reader:
-	new_row = [col.strip() for col in row]
-	#print (row, "->", new_row)
-	print(', '.join(new_row))
-	row_writer.writerow(new_row)
-f_in.close()
-f_out.close()
-#  copy a File: https://stackoverflow.com/questions/123198/how-do-i-copy-a-file-in-python?noredirect=1&lq=1
-#  copyfile(path1, path2)
-
-"""
+df_sum = pd.merge(df_sap, df_last, left_on = 'MPN-UOM', right_on = 'MPN-UOM', how='left')
+df_sum.to_csv('file_name.csv')
+df_sum['Total'] = df_sum['Last Price'] * df_sum['Qty Paid']
+table = pd.pivot_table(df_sum, values=['Qty Paid', 'Total'], index=['Manufacturer Name', 'MPN-UOM', 'Vendor Mat Number', 'Last Description', 'Last Price', 'U O M'], columns = [], aggfunc=np.sum)
