@@ -1,2 +1,2 @@
 # Doodler jump game - laptop version
-![game screenshot](past_projects/pcc/doodler_jump/images/ScreenShot.png)
+![game screenshot](https://ibb.co/kmcNRS)
